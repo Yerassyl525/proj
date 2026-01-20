@@ -3,55 +3,97 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
+        ArrayList<Member> members = new ArrayList<>();
+        ArrayList<Trainer> trainers = new ArrayList<>();
 
-        int choice;
+        while (true) {
 
-        do {
-            System.out.println("\n=== VEHICLE SYSTEM ===");
-            System.out.println("1. Add Car");
-            System.out.println("2. Add Bike");
-            System.out.println("3. View All Vehicles");
+            System.out.println("\n=== GYM MANAGEMENT SYSTEM ===");
+            System.out.println("1. Add Member");
+            System.out.println("2. View Members");
+            System.out.println("3. Add Trainer");
+            System.out.println("4. View Trainers");
             System.out.println("0. Exit");
-            System.out.print("Enter choice: ");
+            System.out.print("Choose option: ");
 
-            choice = scanner.nextInt();
+            int choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
+
                 case 1:
-                    System.out.print("Enter car name: ");
-                    String carName = scanner.nextLine();
-                    vehicles.add(new Car(carName));
-                    System.out.println("Car added!");
+                    try {
+                        System.out.print("Enter member ID: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Enter member name: ");
+                        String name = scanner.nextLine();
+
+                        System.out.print("Enter membership type: ");
+                        String membership = scanner.nextLine();
+
+                        Member member = new Member(id, name, membership);
+                        members.add(member);
+
+                        System.out.println("Member added.");
+                    } catch (InvalidDataException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
                     break;
 
                 case 2:
-                    System.out.print("Enter bike name: ");
-                    String bikeName = scanner.nextLine();
-                    vehicles.add(new Bike(bikeName));
-                    System.out.println("Bike added!");
+                    if (members.isEmpty()) {
+                        System.out.println("No members found.");
+                    } else {
+                        for (Member m : members) {
+                            m.displayInfo();
+                        }
+                    }
                     break;
 
                 case 3:
-                    System.out.println("\nAll Vehicles:");
-                    for (Vehicle v : vehicles) {
-                        System.out.print("- " + v.getName() + " | ");
-                        v.move();
+                    try {
+                        System.out.print("Enter trainer ID: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Enter trainer name: ");
+                        String name = scanner.nextLine();
+
+                        System.out.print("Enter experience years: ");
+                        int exp = scanner.nextInt();
+                        scanner.nextLine();
+
+                        Trainer trainer = new Trainer(id, name, exp);
+                        trainers.add(trainer);
+
+                        System.out.println("Trainer added.");
+                    } catch (InvalidDataException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+
+                case 4:
+                    if (trainers.isEmpty()) {
+                        System.out.println("No trainers found.");
+                    } else {
+                        for (Trainer t : trainers) {
+                            t.displayInfo();
+                        }
                     }
                     break;
 
                 case 0:
-                    System.out.println("Exiting...");
-                    break;
+                    System.out.println("Program finished.");
+                    scanner.close();
+                    return;
 
                 default:
-                    System.out.println("Invalid choice! Try again.");
+                    System.out.println("Invalid option.");
             }
-
-        } while (choice != 0);
-
-        scanner.close();
+        }
     }
 }
