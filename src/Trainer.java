@@ -1,30 +1,47 @@
-public class Trainer extends Person implements Manageable {
+public class Trainer extends Person {
 
-    private int experienceYears;
+    private String specialty;
+    private int yearsOfExperience;
 
-    public Trainer(int id, String name, int experienceYears) {
-        super(id, name);
-        setExperienceYears(experienceYears);
+    public Trainer(int id, String name, int age, String gender,
+                   String specialty, int yearsOfExperience)
+            throws InvalidInputException {
+
+        super(id, name, age, gender);
+        setSpecialty(specialty);
+        setYearsOfExperience(yearsOfExperience);
     }
 
-    public void setExperienceYears(int experienceYears) {
-        if (experienceYears < 0) {
-            throw new InvalidDataException("Experience cannot be negative");
-        }
-        this.experienceYears = experienceYears;
-    }
 
-    public boolean isExperienced() {
-        return experienceYears > 3;
+    public String getSpecialty() {
+        return specialty;
     }
-
+    public int getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+    public void setYearsOfExperience(int yearsOfExperience)
+            throws InvalidInputException {
+        if (yearsOfExperience < 0)
+            throw new InvalidInputException("Experience cannot be negative.");
+        this.yearsOfExperience = yearsOfExperience;
+    }
     @Override
-    public String getRole() {
-        return "Trainer";
+    public void performDuty() {
+        System.out.println("Trainer " + name + " is coaching a client.");
     }
-
+    @Override
+    public String getDescription() {
+        return "Professional Trainer specialized in " + specialty;
+    }
     @Override
     public void displayInfo() {
-        System.out.println("Trainer: " + name + ", Experience: " + experienceYears);
+        System.out.println(
+                "[Trainer] " + toString() +
+                        " | Specialty: " + specialty +
+                        " | Experience: " + yearsOfExperience + " years"
+        );
     }
 }
